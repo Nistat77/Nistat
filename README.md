@@ -1,72 +1,87 @@
-Overview
-The Nistat function is an interactive tool written in R designed to help users select the appropriate statistical test for their data. The function guides users through a series of questions based on their research objectives, data type, and sample characteristics, ultimately suggesting the most suitable parametric or non-parametric test.
+# Nistat | نيستات
 
-This function is useful for researchers, students, and analysts who are unsure which statistical test to apply to their data. The tool covers a wide range of statistical tests and handles different types of data (nominal, ordinal, interval, continuous).
+دليل تفاعلي بلغة R يساعد الباحث على اختيار الأسلوب الإحصائي وفق **السؤال البحثي وتصميم الدراسة والكمية المراد تقديرها**. تعرض كل توصية سبب الاختيار، والافتراضات المطلوب فحصها، وما يُذكر في التقرير، وقالب R ومرجعًا للمنهج. اللغة الافتراضية هي العربية.
 
-Features
-Supports Parametric and Non-parametric Tests: Determines the appropriate test based on the distribution of the data.
-Guides Selection Based on Research Objectives:
-Relationship analysis
-Difference testing
-Prediction modeling
-Distribution testing
-Includes Goodness-of-fit and Homogeneity Tests for advanced statistical analysis.
-Prerequisites
-Ensure you have R installed on your system. This function does not require any additional R packages.
+Nistat is an Arabic-first statistical method guide with an English interface. Each recommendation gives a rationale, assumptions to check, reporting guidance, an editable R template and a reference. You can use the console or save the same recommendation in an analysis script.
 
-Usage Instructions
-Copy the Nistat function code into your R environment or save it in a file (e.g., Nistat.R).
-Run the function by executing Nistat() in the R console.
-Follow the prompts in the console to answer questions about your data and research goals.
-The function will guide you through a sequence of questions and display the recommended statistical test based on your responses.
-Step-by-Step Example
-Here's a quick walkthrough of how to use the function interactively.
+## البدء السريع · Quick start
 
-Run the function:
+Download [Nistat.R](Nistat.R) and open R in the directory containing it.
 
-R
-Copy code
-Nistat()
-Answer the questions:
+```r
+source("Nistat.R", encoding = "UTF-8")
+Nistat()                  # العربية
+# Nistat(language = "en") # English
+```
 
-The function will ask you about the type of question you’re investigating (relationship, difference, prediction, or distribution).
-Based on your answers, it will then prompt you for information on your data type, number of groups, whether the data meets parametric assumptions, etc.
-Receive recommendations:
+من سطر الأوامر، استخدم `Rscript Nistat.R` للعربية أو `Rscript Nistat.R en` للإنجليزية. اكتب رقم الخيار، أو `b` للرجوع وتعديل الإجابة السابقة، أو `0` للإنهاء. يقبل الدليل الأرقام 1 و١ و۱.
 
-After going through the questions, Nistat will display the most appropriate statistical test for your data and research objective.
-Example Usage
-Suppose you have two independent groups with interval data and you want to test for a difference between them:
+The guide runs locally in base R. No data upload or package installation is needed to get a recommendation. Run the R template separately after preparing your data. The multinomial and ordinal regression templates use the recommended R packages **nnet** and **MASS**, respectively.
 
-You would start the Nistat() function and select Difference as your research question.
-When prompted, specify that you have interval data and two groups.
-Indicate that the samples are independent and that your data meets parametric assumptions.
-The function will suggest using an Independent Samples t-test.
-Supported Statistical Tests
-Here is a non-exhaustive list of statistical tests supported by Nistat:
+## الأسئلة المتاحة · Research questions
 
-Parametric Tests:
+| Goal | What the guide distinguishes |
+| --- | --- |
+| Association · العلاقات | Linear and monotonic association, exploratory plots, and categorical association with adequate, sparse or unknown expected counts. |
+| Comparison · الفروق | A sample against a reference, independent or paired groups, repeated measurements, two-group pre/post designs, and the interaction of two crossed factors. |
+| Prediction · التنبؤ | Continuous, binary, unordered categorical, ordered categorical and count outcomes. |
+| Distribution · التوزيع | Independent observations or fitted residuals, variance homogeneity, category frequencies, and continuous reference distributions with fixed or estimated parameters. |
 
-Pearson’s Correlation
-Independent Samples t-test
-Paired Samples t-test
-ANOVA (One-way, Two-way, Repeated Measures)
-Simple and Multiple Linear Regression
-Non-Parametric Tests:
+## مثال بحثي · A pre/post study
 
-Spearman’s Rank Correlation
-Mann-Whitney U Test
-Wilcoxon Signed-Rank Test
-Kruskal-Wallis Test
-Friedman Test
-Goodness-of-Fit and Homogeneity Tests:
+قِيسَ التحصيل قبل برنامج تعليمي وبعده في مجموعتين مستقلتين. إذا كان السؤال عن الفرق في المتوسط البعدي عند مستوى قبلي مشترك، يوجّه نيستات إلى **تحليل التغاير (ANCOVA)**. وإذا كان السؤال عن الفرق بين متوسطي التحسن، يوجّه إلى مقارنة **درجات التغير الفردية** بين المجموعتين. حدّد السؤال عند تخطيط الدراسة.
 
-Chi-Squared Test for Independence
-Fisher’s Exact Test
-Kolmogorov-Smirnov Test
-Shapiro-Wilk Test for Normality
-Levene's and Bartlett's Tests for Homogeneity
-Troubleshooting
-If the function does not run, ensure that all code for the Nistat function is copied correctly into your R environment.
-For help understanding specific tests, consult R’s documentation or statistical resources for additional details.
-License
-This function is provided as-is under the MIT License. You are free to use, modify, and distribute the code.
+Record the design and retrieve the baseline-adjusted recommendation in a script.
+
+```r
+plan <- nistat_recommend(
+  goal = "comparison",
+  design = "pre_post",
+  target = "adjusted_followup",
+  language = "en"
+)
+print(plan)
+plan$answers  # Reproducible record of the choices
+```
+
+Run the recommended model on these illustrative scores. Each row represents one participant.
+
+```r
+dat <- data.frame(
+  group = factor(rep(c("control", "program"), each = 6),
+                 levels = c("control", "program")),
+  pre = c(8:13, 10:15),
+  post = c(12, 12, 13, 14, 12, 15, 16, 17, 17, 16, 19, 17)
+)
+fit <- stats::lm(post ~ pre + group, data = dat)
+cbind(estimate = coef(fit), confint(fit))["groupprogram", ]
+with(dat, tapply(post - pre, group, mean))
+```
+
+In this example, the program group scored **3.26 points higher** at follow-up after adjusting for baseline (95% CI **1.73 to 4.78**). Mean change was **4.50 points** for the program group and **2.50** for the control group, giving a **2.00-point difference in improvement**. These estimates answer the two questions above. [Vickers & Altman, 2001](https://pmc.ncbi.nlm.nih.gov/articles/PMC1121605/)
+
+## استخدام الدليل في كود R · Script interface
+
+`nistat_options()` lists the next question and its named answer codes. Supply the choices already made to discover the next step. A completed path returns `NULL`. The same codes work in both languages.
+
+```r
+nistat_options(language = "en")$choices
+nistat_options(goal = "comparison", design = "paired_two", language = "en")$choices
+
+# Binary outcome measured twice on the same participants
+paired <- nistat_recommend("comparison", design = "paired_two", target = "binary")
+paired$id     # "mcnemar_exact"
+paired$code   # R template for a paired 2 by 2 table
+```
+
+A recommendation contains `id`, `language`, `method`, `rationale`, `checks`, `report`, `code`, `reference` and `answers`. The console returns its last completed recommendation invisibly. In scripts, missing, invalid and inapplicable design choices produce an error.
+
+Prepare inputs as specified in the recommendation. For example, align paired observations by participant ID, encode ranks in their substantive order, and give matching row and column levels for a paired binary table. The simple independent-group routes assume independent sampling units. Clustered samples, complex surveys and incomplete longitudinal data can require a model tailored to that design.
+
+## الاختبارات · Regression checks
+
+From the repository root, run `Rscript --vanilla tests/test_nistat.R`. The checks exercise the decision paths in both languages, run the R templates on example data and cover console navigation.
+
+## License
+
+MIT.
