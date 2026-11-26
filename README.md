@@ -6,6 +6,10 @@ Nistat is an Arabic-first statistical method guide with an English interface. Ea
 
 ## البدء السريع · Quick start
 
+**للطلاب** افتح الدليل في المتصفح واختر هدف دراستك، أو ابدأ بالمثال التعليمي عن درجات الطلاب قبل البرنامج وبعده. يمكنك نسخ رابط أي خطوة أو طباعة التوصية أو تنزيل نسخة تعمل دون اتصال. [افتح دليل نيستات للطلاب](https://nistat-students.lilacsunbird8.chatgpt.site/)
+
+**For students** the browser guide runs in Arabic or English with no R installation. Use **Copy link** to share the current question or recommendation with a class. [Open the English student guide](https://nistat-students.lilacsunbird8.chatgpt.site/#en)
+
 Download [Nistat.R](Nistat.R) and open R in the directory containing it.
 
 ```r
@@ -81,6 +85,8 @@ Prepare inputs as specified in the recommendation. For example, align paired obs
 ## الاختبارات · Regression checks
 
 From the repository root, run `Rscript --vanilla tests/test_nistat.R`. The checks exercise the decision paths in both languages, run the R templates on example data and cover console navigation.
+
+The browser guide is built from the same decision tables. After changing the R guide or `students/src/`, run `Rscript students/build.R` with the build-time package `jsonlite`, then `node tests/test_students.mjs`. Use `Rscript students/build.R --check` to check that the standalone `students/index.html` matches its sources.
 
 ## License
 
