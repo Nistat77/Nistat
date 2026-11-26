@@ -37,10 +37,27 @@ for (marker in names(inserts)) {
 }
 output <- charToRaw(enc2utf8(paste0(paste(page, collapse = "\n"), "\n")))
 file <- "students/index.html"
+archive <- "students/Nistat-Students.zip"
+member <- "Nistat-Students.html"
 if (identical(commandArgs(trailingOnly = TRUE), "--check")) {
   if (!file.exists(file) || !identical(readBin(file, "raw", n = file.size(file)), output)) {
     stop("Rebuild students/index.html with Rscript students/build.R.")
   }
+  stopifnot(identical(utils::unzip(archive, list = TRUE)$Name, member))
+  zipped <- unz(archive, member, open = "rb")
+  matches <- identical(readBin(zipped, "raw", n = length(output) + 1L), output)
+  close(zipped)
+  if (!matches) stop("Rebuild the offline ZIP with Rscript students/build.R.")
 } else {
   writeBin(output, file)
+  # A separate ZIP also downloads in browsers that navigate to a bare HTML link.
+  scratch <- tempfile("nistat-students-")
+  dir.create(scratch)
+  html <- file.path(scratch, member)
+  writeBin(output, html)
+  Sys.setFileTime(html, as.POSIXct("2000-01-02 12:00:00"))
+  bundle <- file.path(scratch, "offline.zip")
+  if (utils::zip(bundle, html, flags = "-9Xjq") != 0L) stop("Unable to create the offline ZIP.")
+  stopifnot(file.copy(bundle, archive, overwrite = TRUE))
+  unlink(scratch, recursive = TRUE)
 }

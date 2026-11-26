@@ -10,6 +10,8 @@ Nistat is an Arabic-first statistical method guide with an English interface. Ea
 
 **For students** the browser guide runs in Arabic or English with no R installation. Use **Copy link** to share the current question or recommendation with a class. [Open the English student guide](https://nistat-students.lilacsunbird8.chatgpt.site/#en)
 
+للتدريس دون إنترنت، فكّ ضغط الأرشيف وافتح `Nistat-Students.html` في المتصفح. [نسخة الطلاب للاستخدام دون اتصال](students/Nistat-Students.zip)
+
 Download [Nistat.R](Nistat.R) and open R in the directory containing it.
 
 ```r

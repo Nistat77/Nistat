@@ -4,7 +4,7 @@ const wording = {
   ar: {
     title: "دليل اختيار التحليل الإحصائي", subtitle: "ابدأ بسؤالك البحثي، ثم حدّد تصميم دراستك للوصول إلى الأسلوب المناسب وما تحتاج إلى فحصه وتقريره.",
     student: "دليل الطالب", home: "نيستات | البداية", share: "نسخ الرابط", skip: "انتقل إلى الدليل", footer: "روابط الدليل",
-    download: "تنزيل نسخة دون اتصال", repository: "المشروع على GitHub", step: "السؤال", recommendation: "الأسلوب المقترح",
+    download: "تنزيل نسخة دون اتصال (ZIP)", repository: "المشروع على GitHub", step: "السؤال", recommendation: "الأسلوب المقترح",
     back: "الرجوع", reset: "بدء دراسة جديدة", choices: "اختياراتك", edit: "تعديل الإجابة", check: "قبل استخدام الأسلوب",
     report: "ما الذي تذكره في التقرير؟", code: "عرض قالب R", copyCode: "نسخ كود R", source: "المرجع العلمي",
     print: "طباعة التوصية", openExample: "جرّب هذا المثال", exampleLabel: "مثال تطبيقي", exampleTitle: "هل تحسّنت درجات الطلاب؟",
@@ -20,7 +20,7 @@ const wording = {
   en: {
     title: "Find the right analysis for your study", subtitle: "Start with your research question, then describe your study design to find a method, its assumptions and what to report.",
     student: "Student guide", home: "Nistat home", share: "Copy link", skip: "Skip to guide", footer: "Guide links",
-    download: "Download for offline use", repository: "Project on GitHub", step: "Question", recommendation: "Recommended approach",
+    download: "Download for offline use (ZIP)", repository: "Project on GitHub", step: "Question", recommendation: "Recommended approach",
     back: "Back", reset: "Start a new study", choices: "Your choices", edit: "Edit answer", check: "Before you use it",
     report: "What to report", code: "View R template", copyCode: "Copy R code", source: "Method reference",
     print: "Print recommendation", openExample: "Explore this example", exampleLabel: "Worked example", exampleTitle: "Did the students’ scores improve?",
@@ -270,8 +270,9 @@ function render(focus = false) {
   const switcher = byId("language");
   switcher.href = routeHash(other,state.answers,state.example); switcher.lang = other;
   switcher.textContent = other === "en" ? "English" : "العربية";
-  const downloadURL = new URL(location.href); downloadURL.hash = "";
-  byId("download").href = downloadURL.href;
+  const offline = location.protocol === "file:";
+  byId("download").hidden = offline;
+  byId("download").nextElementSibling.hidden = offline;
   byId("intro").classList.toggle("compact",state.answers.length > 0);
   const question = catalog.questions[state.node];
   if (question) renderQuestion(state,question); else renderMethod(state,catalog.methods[state.node]);
