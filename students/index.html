@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f1">
+  <meta name="description" content="دليل نيستات للطلاب لاختيار الأسلوب الإحصائي خطوة بخطوة، بالعربية والإنجليزية.">
+  <title>نيستات | دليل الطالب للتحليل الإحصائي</title>
+  <style>
+:root {
+  color-scheme: light;
+  --paper: #f7f7f1;
+  --surface: #fffefa;
+  --ink: #172e2b;
+  --muted: #52655e;
+  --line: #d8dfd6;
+  --teal: #176557;
+  --dark: #153e39;
+  --aqua: #9de0c7;
+  --gold: #f6ce8d;
+  --sans: "DM Sans", "Noto Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+  --display: "Noto Naskh Arabic", Georgia, "Times New Roman", serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 var(--sans); }
+button, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { color: inherit; cursor: pointer; }
+a { color: inherit; text-underline-offset: .2em; }
+:focus-visible { outline: 3px solid #bf7526; outline-offset: 4px; }
+h1, h2, h3, p, figure, ol { margin: 0; }
+.wrap { width: min(1140px, calc(100% - 80px)); margin-inline: auto; }
+.topbar { border-bottom: 1px solid var(--line); background: var(--surface); }
+.nav, .brand, .nav-actions, .footer, .footer nav, .panel-line, .result-links, .dialog-actions {
+  display: flex; align-items: center;
+}
+.nav { min-height: 74px; gap: 18px; }
+.brand { gap: 9px; text-decoration: none; direction: ltr; }
+.mark { height: 35px; width: 35px; display: flex; justify-content: center; align-items: flex-end;
+  gap: 3px; background: var(--dark); border-radius: 10px; padding: 8px; }
+.mark i { background: #d1edd8; border-radius: 2px 2px 0 0; width: 4px; height: 55%; }
+.mark i:nth-child(2) { height: 100%; }
+.mark i:last-child { height: 75%; background: var(--gold); }
+.wordmark { font: 700 36px/.95 Georgia, serif; letter-spacing: -2.6px; color: var(--dark); }
+.wordmark span { color: #ac6e2c; }
+.product-label { padding-inline-start: 17px; border-inline-start: 1px solid var(--line); color: var(--muted); font-size: .87rem; }
+.nav-actions { gap: 9px; margin-inline-start: auto; }
+.nav-button, .text-button, .button-solid, .case-action, .reference-link {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 42px; padding: 7px 15px; border-radius: 8px; border: 1px solid var(--line);
+  font-size: .9rem; line-height: 1.5; font-weight: 600; background: transparent; text-decoration: none;
+}
+.nav-button:hover, .text-button:hover, .reference-link:hover { background: #edf2e9; border-color: #a9bcaf; }
+.nav-button.share, .button-solid { background: var(--dark); color: #fff; border-color: var(--dark); }
+.nav-button.share:hover, .button-solid:hover { background: #21574c; }
+.skip-link { position: fixed; z-index: 8; top: 8px; inset-inline-start: 12px; padding: 9px 15px;
+  background: white; border: 2px solid var(--teal); transform: translateY(-160%); }
+.skip-link:focus { transform: translateY(0); }
+.intro { padding-block: clamp(32px, 5.2vw, 66px) 31px; }
+.intro::before { content: ""; display: block; width: 43px; height: 4px; margin-block-end: 14px; border-radius: 2px; background: #a06b35; }
+.intro h1 { font: 650 clamp(2.65rem, 5.2vw, 4.25rem)/1.18 var(--display); color: var(--ink); }
+.intro p { color: var(--muted); max-width: 79ch; margin-block-start: 6px; font-size: 1.04rem; line-height: 1.85; }
+[lang="en"] .intro h1 { letter-spacing: -.057em; font-weight: 500; }
+.workspace { display: grid; grid-template-columns: minmax(0, 1.95fr) minmax(270px, 1fr); gap: 22px; align-items: start; }
+.panel { border: 1px solid var(--line); background: var(--surface); border-radius: 18px; }
+.guide-panel { padding: clamp(20px, 2.8vw, 35px); min-width: 0; box-shadow: 0 3px 12px #1c2c2010; }
+.panel-line { justify-content: space-between; gap: 10px; margin-bottom: 10px; min-height: 26px; }
+.step-tag, .case-label { display: inline-flex; align-items: center; gap: 8px; font-size: .82rem; font-weight: 700; color: var(--teal); }
+.step-tag::before { content: ""; height: 8px; width: 8px; border: 2px solid var(--teal); border-radius: 50%; }
+h2 { font-size: clamp(1.35rem, 2.5vw, 1.9rem); line-height: 1.45; text-wrap: pretty; }
+h2:focus, main:focus { outline: none; }
+.choice-grid { margin-top: 21px; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+.tile, .option {
+  background: #fff; border: 1px solid var(--line); border-radius: 12px;
+  text-align: start; transition: background .14s, border-color .14s, box-shadow .14s;
+}
+.tile { min-height: 146px; padding: 15px 17px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-content: start; }
+.tile:hover, .option:hover { border-color: #6f9c87; background: #f4f8f1; box-shadow: 0 2px 6px #1f473411; }
+.tile-name { font-size: 1.04rem; font-weight: 700; grid-column: 1/-1; margin-top: 4px; line-height: 1.48; }
+.tile-caption { color: var(--muted); font-size: .84rem; line-height: 1.6; grid-column: 1/-1; }
+.tile-plot { width: 44px; height: 34px; display: block; border-radius: 6px; }
+.arrow { font: 500 19px/1 Arial, sans-serif; display: inline-block; align-self: center; color: #517564; }
+[dir="rtl"] .flow-arrow { transform: scaleX(-1); }
+.option-list { display: grid; gap: 9px; margin-top: 21px; }
+.option { min-height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 12px 15px; font-weight: 550; }
+.quiet { padding: 5px 0; min-height: 40px; border: 0; background: transparent; color: var(--teal); text-decoration: underline;
+  text-underline-offset: 4px; font-size: .85rem; font-weight: 600; }
+.side-panel { min-width: 0; }
+.case { border-radius: 18px; background: var(--dark); color: #fffef3; padding: clamp(22px, 2.6vw, 32px); overflow: hidden; }
+.case-label { color: var(--gold); }
+.case-label::before { content: ""; display: inline-block; width: 18px; height: 2px; background: var(--gold); }
+.case h2 { font: 600 clamp(1.7rem, 2.65vw, 2.22rem)/1.33 var(--display); margin-top: 8px; }
+[lang="en"] .case h2 { letter-spacing: -.035em; font-weight: 500; }
+.case p { color: #e1ece1; font-size: .94rem; line-height: 1.75; margin-top: 6px; }
+.case figure { margin-top: 20px; padding-block: 14px; border-block: 1px solid #ffffff30; }
+.case figcaption { font-size: .8rem; color: #d7e8dd; }
+.case-chart { width: 100%; height: auto; display: block; margin-top: 6px; }
+.legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 13px; color: #e4eee6; font-size: .75rem; }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend i { width: 15px; border-top: 3px solid var(--aqua); }
+.legend .control i { border-top: 3px dashed var(--gold); }
+.case-action { margin-top: 17px; background: #f4efda; color: #163e36; border-color: transparent; width: 100%; justify-content: space-between; padding: 9px 15px; }
+.case-action:hover { background: #fff9e7; }
+.trail { padding: 21px 23px; }
+.side-panel > * + * { margin-block-start: 15px; }
+.trail h2 { font-size: 1.08rem; }
+.trail ol { padding-inline-start: 1.5rem; margin-top: 10px; }
+.trail li { color: #3c6252; padding-inline-start: 2px; }
+.trail li + li { margin-top: 4px; }
+.trail a { color: var(--muted); font-size: .86rem; text-decoration-color: #acbfb1; }
+.trail a:hover { color: var(--teal); }
+.result-why { color: #345950; font-size: 1.04rem; margin-top: 9px; line-height: 1.8; }
+.result-block { margin-top: 19px; }
+.result-block h3, .example-answer h3 { font-size: 1.02rem; margin-bottom: 3px; }
+.result-block p { color: var(--muted); }
+.example-answer { border-inline-start: 3px solid #b47b37; background: #f7f1df; padding: 13px 16px; margin-top: 18px; border-radius: 6px; }
+.code-box { margin-top: 23px; border: 1px solid var(--line); border-radius: 10px; }
+.code-box summary { padding: 11px 15px; cursor: pointer; font-weight: 600; color: var(--teal); }
+.code-box .code-body { padding: 0 13px 13px; }
+pre { direction: ltr; text-align: left; white-space: pre-wrap; overflow-wrap: anywhere; padding: 12px;
+  font: .83rem/1.55 ui-monospace, Consolas, monospace; background: #edf1e9; border-radius: 7px; color: #142f27; }
+.result-links { flex-wrap: wrap; gap: 9px; margin-top: 21px; }
+.footer { justify-content: space-between; gap: 12px; margin-block: 32px 20px; padding-block-start: 16px;
+  border-top: 1px solid var(--line); color: var(--muted); font-size: .8rem; }
+.footer nav { flex-wrap: wrap; gap: 10px; }
+.footer a { text-decoration: none; padding-block: 5px; }
+.footer a:hover { color: var(--teal); text-decoration: underline; }
+.notice:not(:empty) { position: fixed; z-index: 10; bottom: 22px; inset-inline-start: 50%; transform: translateX(-50%);
+  background: var(--dark); color: white; padding: 8px 18px; border-radius: 8px; box-shadow: 0 3px 14px #172e2b22; }
+[dir="rtl"] .notice:not(:empty) { transform: translateX(50%); }
+dialog { color: var(--ink); border: 1px solid var(--line); border-radius: 14px; width: min(460px, 92vw); padding: 24px; background: var(--surface); }
+dialog::backdrop { background: #152d2980; }
+dialog textarea { width: 100%; min-height: 85px; margin: 15px 0; padding: 9px; border: 1px solid var(--line); border-radius: 6px; font: .9rem/1.6 monospace; }
+@media (max-width: 850px) {
+  .wrap { width: calc(100% - 42px); }
+  .workspace { grid-template-columns: minmax(0,1.65fr) minmax(230px,1fr); gap: 14px; }
+  .guide-panel, .case { padding: 20px; }
+}
+@media (max-width: 680px) {
+  .wrap { width: calc(100% - 32px); }
+  .workspace { grid-template-columns: minmax(0,1fr); }
+  .nav { min-height: 62px; gap: 9px; }
+  .nav-actions { gap: 5px; }
+  .nav-button { min-height: 40px; padding: 5px 10px; font-size: .8rem; }
+  .product-label { display: none; }
+  .wordmark { font-size: 30px; }
+  .mark { width: 31px; height: 31px; padding: 6px; }
+  .intro { padding-block: 28px 19px; }
+  .intro h1 { font-size: clamp(2.08rem,7.5vw,3rem); }
+  .intro p { font-size: .91rem; }
+  .guide-panel, .case { padding: 19px; }
+  .choice-grid { gap: 9px; margin-top: 14px; }
+  .tile { padding: 12px; min-height: 120px; }
+  .case-chart { max-height: 175px; }
+  .footer { flex-wrap: wrap; margin-block-start: 22px; }
+}
+@media (max-width: 400px) {
+  .wrap { width: calc(100% - 22px); }
+  .tile { padding: 10px; }
+  .tile-name { font-size: .92rem; }
+  .tile-caption { font-size: .76rem; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+@media print {
+  body { background: white; font-size: 11pt; }
+  .wrap { width: 100%; }
+  .nav-actions, .intro p, .intro::before, .share, .footer, .result-links, .quiet, .case,
+  .code-box button, .skip-link, dialog, .notice, .case-action { display: none !important; }
+  .topbar { border-bottom: 1px solid #bbb; }
+  .nav { min-height: 44px; }
+  .intro { padding: 12px 0; }
+  .intro h1 { font-size: 21pt; }
+  .workspace { display: block; }
+  .guide-panel, .trail { box-shadow: none; border: 0; padding: 10px 0; }
+  .result-block, .example-answer, pre { break-inside: avoid; }
+  .code-box { border: 0; }
+  .trail a { text-decoration: none; }
+  .print-reference { overflow-wrap: anywhere; display: block !important; font-size: 9pt; }
+}
+.print-reference { display: none; }
+.tile, .option { color: inherit; text-decoration: none; }
+.quiet { display: inline-flex; align-items: center; }
+.trail-item { color: var(--muted); font-size: .86rem; }
+.intro.compact { padding-block: 26px 20px; }
+.intro.compact h1 { font-size: clamp(1.8rem, 3.4vw, 2.65rem); }
+.intro.compact p, .intro.compact::before { display: none; }
+  </style>
+</head>
+<body>
+  <a id="skip" class="skip-link" href="#main-content">انتقل إلى الدليل</a>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" id="home" href="#ar" aria-label="نيستات | البداية">
+        <span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="wordmark" lang="en" dir="ltr">Nistat<span>.</span></span>
+      </a>
+      <span class="product-label" id="product-label">دليل الطالب</span>
+      <div class="nav-actions">
+        <a id="language" class="nav-button" href="#en" lang="en">English</a>
+        <button id="share" class="nav-button share" type="button">نسخ الرابط</button>
+      </div>
+    </div>
+  </header>
+  <main id="main-content" class="wrap" tabindex="-1">
+    <div id="intro" class="intro">
+      <h1 id="page-heading">دليل اختيار التحليل الإحصائي</h1>
+      <p id="intro-text">ابدأ بسؤالك البحثي، ثم حدّد تصميم دراستك للوصول إلى الأسلوب المناسب وما تحتاج إلى فحصه وتقريره.</p>
+    </div>
+    <noscript><p class="panel">يتطلب الدليل تفعيل JavaScript في المتصفح. Enable JavaScript to use the student guide.</p></noscript>
+    <div class="workspace">
+      <section id="guide-panel" class="panel guide-panel" aria-labelledby="question-title"></section>
+      <aside id="side-panel" class="side-panel"></aside>
+    </div>
+  </main>
+  <footer class="wrap footer">
+    <span id="footer-name">Nistat · دليل الطالب</span>
+    <nav aria-label="روابط الدليل" id="footer-nav">
+      <a id="download" href="index.html" download="Nistat-Students.html">تنزيل نسخة دون اتصال</a>
+      <span aria-hidden="true">·</span>
+      <a id="repository" href="https://github.com/Nistat77/Nistat" target="_blank" rel="noopener noreferrer">المشروع على GitHub</a>
+    </nav>
+  </footer>
+  <div id="notice" class="notice" role="status"></div>
+  <dialog id="copy-dialog" aria-labelledby="copy-title">
+    <h2 id="copy-title"></h2>
+    <textarea id="manual-copy" dir="ltr" readonly aria-labelledby="copy-title"></textarea>
+    <button id="close-dialog" type="button" class="button-solid"></button>
+  </dialog>
+  <script id="catalog" type="application/json">
+{"questions":{"goal":{"key":"goal","label":{"en":"What is your research question?","ar":"ما هدف التحليل؟"},"choices":{"association":{"to":"variables","label":{"en":"Assess an association","ar":"دراسة علاقة بين متغيرين"}},"comparison":{"to":"design","label":{"en":"Compare groups, occasions or a reference value","ar":"المقارنة بين مجموعات أو قياسات أو بقيمة مرجعية"}},"prediction":{"to":"outcome","label":{"en":"Model or predict an outcome","ar":"نمذجة متغير تابع أو التنبؤ به"}},"distribution":{"to":"diagnostic","label":{"en":"Check a distribution or a model assumption","ar":"فحص توزيع أو أحد افتراضات النموذج"}}}},"variables":{"key":"variables","label":{"en":"Which two variables are recorded for each independent unit?","ar":"ما نوع المتغيرين المقاسين لكل وحدة مستقلة؟"},"choices":{"continuous":{"to":"pattern","label":{"en":"Two quantitative variables","ar":"متغيران كميان"}},"ordinal":{"to":"spearman","label":{"en":"Ordered scores, with a monotonic relationship of interest","ar":"درجات ترتيبية لدراسة علاقة رتيبة (في اتجاه واحد)"}},"categorical":{"to":"table_counts","label":{"en":"Two categorical variables","ar":"متغيران فئويان"}}}},"pattern":{"key":"pattern","label":{"en":"Which pattern do you want to describe?","ar":"ما نمط العلاقة المراد وصفها؟"},"choices":{"linear":{"to":"pearson","label":{"en":"Linear","ar":"خطية"}},"monotonic":{"to":"spearman","label":{"en":"Consistently increasing or decreasing, possibly curved","ar":"متزايدة أو متناقصة في اتجاه واحد وقد تكون منحنية"}},"unknown":{"to":"scatterplot","label":{"en":"Non-monotonic or still unknown","ar":"يتغير اتجاهها أو لم يتضح نمطها بعد"}}}},"table_counts":{"key":"expected","label":{"en":"Are expected cell counts adequate for the chi-squared approximation under independence?","ar":"هل التكرارات المتوقعة تحت فرض الاستقلال كافية لتقريب كاي تربيع؟"},"choices":{"adequate":{"to":"chisq_independence","label":{"en":"Adequate","ar":"كافية"}},"sparse":{"to":"fisher_exact","label":{"en":"Sparse","ar":"منخفضة في بعض الخلايا"}},"unknown":{"to":"inspect_expected","label":{"en":"I need to inspect the expected counts","ar":"أحتاج إلى فحص التكرارات المتوقعة"}}}},"design":{"key":"design","label":{"en":"How were the observations collected?","ar":"كيف جُمعت المشاهدات؟"},"choices":{"one_sample":{"to":"one_target","label":{"en":"One sample against a reference","ar":"عينة واحدة مقارنة بقيمة أو بتوزيع مرجعي"}},"independent_two":{"to":"two_target","label":{"en":"Two independent groups, one observation per person","ar":"مجموعتان مستقلتان وقياس واحد لكل فرد"}},"paired_two":{"to":"paired_target","label":{"en":"Two measurements on the same people or matched pairs","ar":"قياسان للأفراد أنفسهم أو لأزواج متطابقة"}},"independent_many":{"to":"many_target","label":{"en":"Three or more independent groups","ar":"ثلاث مجموعات مستقلة فأكثر"}},"repeated_many":{"to":"repeated_target","label":{"en":"Three or more occasions on the same people","ar":"ثلاثة قياسات فأكثر للأفراد أنفسهم"}},"pre_post":{"to":"pre_post_target","label":{"en":"Two independent groups, each measured before and after on a quantitative outcome","ar":"مجموعتان مستقلتان لكل منهما قياس قبلي وبعدي لنتيجة كمية"}},"factorial":{"to":"factorial_interaction","label":{"en":"Two crossed group factors, testing their interaction on a quantitative outcome","ar":"عاملان فئويان متقاطعان لدراسة تفاعلهما في نتيجة كمية لدى أفراد مستقلين"}}}},"one_target":{"key":"target","label":{"en":"What do you want to compare with the reference?","ar":"ما الذي تريد مقارنته بالمرجع؟"},"choices":{"mean":{"to":"one_sample_t","label":{"en":"A quantitative mean","ar":"متوسط متغير كمي"}},"proportion":{"to":"one_proportion","label":{"en":"A binary outcome proportion","ar":"نسبة حدوث نتيجة ثنائية"}},"frequencies":{"to":"gof_counts","label":{"en":"Counts across several categories","ar":"التكرارات عبر فئات متعددة"}}}},"two_target":{"key":"target","label":{"en":"What differs between the two independent groups?","ar":"ما الذي تريد مقارنته بين المجموعتين المستقلتين؟"},"choices":{"means":{"to":"welch_t","label":{"en":"Quantitative means","ar":"متوسطا متغير كمي"}},"ranks":{"to":"rank_sum","label":{"en":"Ranks or ordered scores","ar":"الرتب أو الدرجات الترتيبية"}},"proportions":{"to":"table_counts","label":{"en":"Category proportions","ar":"نسب الفئات"}}}},"paired_target":{"key":"target","label":{"en":"What contrast within pairs answers your question?","ar":"ما المقارنة التي تجيب عن سؤالك داخل الأزواج؟"},"choices":{"means":{"to":"paired_t","label":{"en":"Mean of the quantitative differences","ar":"متوسط الفروق الكمية"}},"signed_ranks":{"to":"signed_rank","label":{"en":"Location of symmetric differences with meaningful magnitudes","ar":"موقع توزيع فروق متماثلة ذات مقادير قابلة للتفسير"}},"direction":{"to":"sign_test","label":{"en":"Direction of change on an ordered scale","ar":"اتجاه التغير على مقياس ترتيبي"}},"binary":{"to":"mcnemar_exact","label":{"en":"Change in a binary proportion","ar":"التغير في نسبة نتيجة ثنائية"}}}},"many_target":{"key":"target","label":{"en":"What differs across independent groups?","ar":"ما الذي تريد مقارنته بين المجموعات المستقلة؟"},"choices":{"means":{"to":"welch_anova","label":{"en":"Quantitative means","ar":"متوسطات متغير كمي"}},"ranks":{"to":"kruskal","label":{"en":"Ranks or ordered scores","ar":"الرتب أو الدرجات الترتيبية"}},"proportions":{"to":"table_counts","label":{"en":"Category proportions","ar":"نسب الفئات"}}}},"repeated_target":{"key":"target","label":{"en":"What do you compare across occasions?","ar":"ما الذي تريد مقارنته عبر القياسات؟"},"choices":{"means":{"to":"rm_anova","label":{"en":"Quantitative means in a complete repeated-measures design","ar":"متوسطات متغير كمي في تصميم قياسات متكررة مكتمل"}},"ranks":{"to":"friedman","label":{"en":"Within-person ranks in a complete design","ar":"الرتب داخل كل فرد في تصميم مكتمل"}}}},"pre_post_target":{"key":"target","label":{"en":"Which group difference do you want to estimate?","ar":"أي فرق بين المجموعتين تريد تقديره؟"},"choices":{"adjusted_followup":{"to":"ancova","label":{"en":"Difference at follow-up adjusted for baseline","ar":"الفرق في القياس البعدي بعد ضبط القياس القبلي"}},"change":{"to":"change_scores","label":{"en":"Difference in mean change from baseline","ar":"الفرق بين متوسطي التغير من القياس القبلي إلى البعدي"}}}},"outcome":{"key":"outcome","label":{"en":"What kind of outcome are you predicting for each independent unit?","ar":"ما نوع المتغير التابع المراد التنبؤ به لكل وحدة مستقلة؟"},"choices":{"continuous":{"to":"predictors","label":{"en":"Quantitative continuous","ar":"كمي مستمر"}},"binary":{"to":"binary_logit","label":{"en":"Two categories","ar":"ثنائي الفئة"}},"nominal":{"to":"multinomial","label":{"en":"Three or more unordered categories","ar":"ثلاث فئات اسمية غير مرتبة فأكثر"}},"ordinal":{"to":"ordinal_logit","label":{"en":"Three or more ordered categories","ar":"ثلاث فئات مرتبة فأكثر"}},"count":{"to":"poisson","label":{"en":"A non-negative event count","ar":"عدد مرات وقوع حدث"}}}},"predictors":{"key":"predictors","label":{"en":"How many predictors enter the model?","ar":"كم متغيرًا تنبؤيًا يتضمن النموذج؟"},"choices":{"one":{"to":"linear_simple","label":{"en":"One","ar":"واحد"}},"multiple":{"to":"linear_multiple","label":{"en":"Two or more","ar":"اثنان فأكثر"}}}},"diagnostic":{"key":"target","label":{"en":"What would you like to assess?","ar":"ما الذي تريد فحصه؟"},"choices":{"normality":{"to":"normal_quantity","label":{"en":"Normality of observations, paired differences or residuals","ar":"اعتدالية المشاهدات أو الفروق الزوجية أو البواقي"}},"variances":{"to":"variance_shape","label":{"en":"Equality of variances across independent groups","ar":"تساوي التباينات بين مجموعات مستقلة"}},"frequencies":{"to":"gof_counts","label":{"en":"Category frequencies against specified probabilities","ar":"مطابقة تكرارات الفئات لاحتمالات محددة"}},"continuous_cdf":{"to":"cdf_parameters","label":{"en":"Fit to a continuous reference distribution","ar":"المطابقة مع توزيع مرجعي مستمر"}}}},"normal_quantity":{"key":"quantity","label":{"en":"Which values are you checking?","ar":"ما القيم التي ستفحصها؟"},"choices":{"independent":{"to":"normality","label":{"en":"Independent observations or independent within-pair differences","ar":"مشاهدات مستقلة أو فروق زوجية مستقلة بعضها عن بعض"}},"residuals":{"to":"residual_qq","label":{"en":"Residuals from a fitted linear model","ar":"بواقي نموذج خطي مقدّر"}}}},"variance_shape":{"key":"shape","label":{"en":"How well justified is within-group normality?","ar":"ما مدى وجاهة افتراض الاعتدالية داخل كل مجموعة؟"},"choices":{"normal":{"to":"bartlett","label":{"en":"Well justified","ar":"تدعمه طبيعة البيانات"}},"uncertain":{"to":"fligner","label":{"en":"Uncertain or affected by outliers","ar":"غير مؤكد أو توجد قيم متطرفة"}}}},"gof_counts":{"key":"expected","label":{"en":"Are expected counts under the specified probabilities sufficiently large?","ar":"هل تكرارات الفئات المتوقعة وفق الاحتمالات المفترضة كبيرة بما يكفي؟"},"choices":{"adequate":{"to":"chisq_gof","label":{"en":"Yes","ar":"نعم"}},"sparse":{"to":"simulated_gof","label":{"en":"Small expected counts","ar":"توجد تكرارات متوقعة منخفضة"}}}},"cdf_parameters":{"key":"parameters","label":{"en":"How were the reference distribution's parameters obtained?","ar":"كيف حُددت معلمات التوزيع المرجعي؟"},"choices":{"fixed":{"to":"ks_fixed","label":{"en":"Specified independently of this sample","ar":"حُددت بصورة مستقلة عن هذه العينة"}},"fitted":{"to":"fitted_qq","label":{"en":"Estimated from this sample","ar":"قُدّرت من العينة نفسها"}}}}},"methods":{"pearson":{"en":{"method":"Pearson correlation","rationale":"Estimates the direction and strength of a linear association.","checks":"Inspect a scatterplot for curvature and influential points. The usual small-sample test and interval assume independent pairs from a bivariate normal population.","report":"Report r, the number of complete pairs and a confidence interval."},"ar":{"method":"معامل ارتباط بيرسون","rationale":"يقدّر اتجاه العلاقة الخطية وقوتها بين متغيرين كميين.","checks":"افحص شكل الانتشار والنقاط المؤثرة. يفترض الاستدلال المعتاد في العينات الصغيرة استقلال الأزواج واعتدالية التوزيع الثنائي.","report":"أبلغ عن معامل الارتباط وعدد الأزواج المكتملة وفترة الثقة."},"code":"stats::cor.test(x, y, method = \"pearson\")","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.test.html"},"spearman":{"en":{"method":"Spearman rank correlation","rationale":"Measures whether higher ranks on one variable tend to accompany higher or lower ranks on the other.","checks":"Use independent pairs and an interpretable ordering. Inspect the shape and ties. The example uses an approximate p-value.","report":"Report Spearman's rho, the number of pairs and the direction of association."},"ar":{"method":"معامل ارتباط سبيرمان للرتب","rationale":"يقدّر مدى اقتران الرتب الأعلى في متغير برتب أعلى أو أدنى في المتغير الآخر.","checks":"تحقق من استقلال الأزواج ومن ترتيب الدرجات، وافحص شكل العلاقة والرتب المتعادلة. يستخدم المثال قيمة احتمالية تقريبية.","report":"أبلغ عن معامل سبيرمان وعدد الأزواج واتجاه العلاقة."},"code":"stats::cor.test(x, y, method = \"spearman\", exact = FALSE)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.test.html"},"scatterplot":{"en":{"method":"Scatterplot for the form of association","rationale":"A curve can rise and fall even when a single correlation is close to zero.","checks":"Use one point per independent unit and examine the observed range, clusters and influential points.","report":"Describe the shape and identify which part of the curve answers the research question."},"ar":{"method":"مخطط الانتشار لفحص شكل العلاقة","rationale":"قد ترتفع العلاقة ثم تنخفض رغم اقتراب معامل الارتباط من الصفر.","checks":"مثّل كل وحدة مستقلة بنقطة وافحص مدى القيم والتجمعات والنقاط المؤثرة.","report":"صِف شكل العلاقة وحدد الجزء الذي يجيب عن السؤال البحثي."},"code":"graphics::plot(x, y)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/graphics/html/plot.default.html"},"inspect_expected":{"en":{"method":"Inspect expected cell counts","rationale":"Under independence, each expected count is its row total times its column total divided by the sample size.","checks":"Use a two-way frequency table of independent observations with positive margins.","report":"A common guide is at least five expected in every cell of a 2 by 2 table. For larger tables, look for all expected counts at least one and at least 80% of them at least five."},"ar":{"method":"فحص التكرارات المتوقعة في الخلايا","rationale":"تحت فرض الاستقلال يساوي التكرار المتوقع حاصل ضرب مجموع الصف في مجموع العمود مقسومًا على حجم العينة.","checks":"استخدم جدول تكرارات ثنائي المدخل لمشاهدات مستقلة بمجاميع صفوف وأعمدة موجبة.","report":"من القواعد الشائعة أن يبلغ التكرار المتوقع خمسة في كل خلية في جدول ٢ × ٢. في الجداول الأكبر افحص بلوغه واحدًا في كل خلية وخمسة في ٨٠٪ من الخلايا على الأقل."},"code":"outer(rowSums(tab), colSums(tab)) / sum(tab)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/fisher.test.html"},"chisq_independence":{"en":{"method":"Pearson chi-squared test of independence","rationale":"Compares observed cell counts with counts expected if the two categorical variables were independent.","checks":"Each independent unit contributes to one cell. Enter the original frequencies and check the expected counts.","report":"Report the table, row or column percentages, chi-squared statistic, degrees of freedom and p-value."},"ar":{"method":"اختبار كاي تربيع للاستقلال","rationale":"يقارن تكرارات الخلايا المشاهدة بالتكرارات المتوقعة عند استقلال المتغيرين الفئويين.","checks":"تسهم كل وحدة مستقلة في خلية واحدة. أدخل التكرارات الأصلية وافحص التكرارات المتوقعة.","report":"اعرض الجدول والنسب الصفية أو العمودية وقيمة كاي تربيع ودرجات الحرية والقيمة الاحتمالية."},"code":"stats::chisq.test(tab, correct = FALSE)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/chisq.test.html"},"fisher_exact":{"en":{"method":"Fisher's exact test","rationale":"Tests association in an independent count table by conditioning on its margins.","checks":"Use individual counts with independent units. Exact calculations can be costly for large tables with many categories.","report":"Give the cell counts and exact p-value. For a 2 by 2 table, also report the odds ratio and interval with the category order."},"ar":{"method":"اختبار فيشر الدقيق","rationale":"يفحص العلاقة في جدول تكراري لمشاهدات مستقلة مع تثبيت المجاميع الهامشية.","checks":"أدخل التكرارات لوحدات مستقلة. قد يتطلب الحساب الدقيق وقتًا طويلًا في الجداول الكبيرة متعددة الفئات.","report":"اعرض التكرارات والقيمة الاحتمالية الدقيقة. في جدول ٢ × ٢ أضف نسبة الأرجحية وفترة الثقة وترتيب الفئات."},"code":"stats::fisher.test(tab)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/fisher.test.html"},"one_sample_t":{"en":{"method":"One-sample t-test","rationale":"Estimates the difference between a quantitative mean and a prespecified benchmark.","checks":"Use independent observations and justify mean-based inference given the sample size, skew and outliers.","report":"State the benchmark, mean difference, confidence interval, t statistic and degrees of freedom."},"ar":{"method":"اختبار ت لعينة واحدة","rationale":"يقدّر الفرق بين متوسط متغير كمي وقيمة مرجعية محددة مسبقًا.","checks":"تحقق من استقلال المشاهدات وملاءمة الاستدلال على المتوسط في ضوء حجم العينة والالتواء والقيم المتطرفة.","report":"اذكر القيمة المرجعية وفرق المتوسط وفترة ثقته وإحصاء ت ودرجات الحرية."},"code":"stats::t.test(x, mu = reference_value)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/t.test.html"},"one_proportion":{"en":{"method":"Exact binomial test for one proportion","rationale":"Compares the chance of a binary event with a specified probability.","checks":"Supply the number of events and independent trials with the same event probability under the null.","report":"Report events, trials, estimated proportion, confidence interval and the reference probability."},"ar":{"method":"اختبار ثنائي الحدين الدقيق لنسبة واحدة","rationale":"يقارن احتمال حدوث نتيجة ثنائية باحتمال مرجعي محدد.","checks":"أدخل عدد مرات وقوع الحدث وعدد المحاولات المستقلة التي تشترك في احتمال الحدث تحت الفرض الصفري.","report":"أبلغ عن العدد والإجمالي والنسبة المقدرة وفترة الثقة والاحتمال المرجعي."},"code":"stats::binom.test(events, trials, p = p0)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/binom.test.html"},"welch_t":{"en":{"method":"Welch two-sample t-test","rationale":"Estimates a difference between independent means while allowing unequal variances.","checks":"Use a quantitative outcome and one observation per independent unit. Check skew and influential observations, especially in small groups.","report":"Report both means, their difference in a stated order, the 95% interval and Welch degrees of freedom."},"ar":{"method":"اختبار ت لويلش لعينتين مستقلتين","rationale":"يقدّر الفرق بين متوسطي مجموعتين مستقلتين ويسمح باختلاف تباينيهما.","checks":"استخدم نتيجة كمية وقياسًا واحدًا لكل وحدة مستقلة. افحص الالتواء والمشاهدات المؤثرة، خصوصًا في المجموعات الصغيرة.","report":"اعرض المتوسطين والفرق بترتيب محدد وفترة الثقة ٩٥٪ ودرجات حرية ويلش."},"code":"stats::t.test(score ~ group, data = dat, var.equal = FALSE)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/t.test.html"},"paired_t":{"en":{"method":"Paired t-test","rationale":"Estimates the mean within-pair difference and preserves the matching.","checks":"Align values by participant or pair ID. Assess the distribution of the differences and independence across pairs.","report":"Report complete pairs, the mean after-minus-before difference and its 95% confidence interval."},"ar":{"method":"اختبار ت للعينات المرتبطة","rationale":"يقدّر متوسط الفروق داخل الأزواج مع مراعاة الارتباط بين القياسين.","checks":"طابق القيم بمعرّف الفرد أو الزوج. افحص توزيع الفروق واستقلال الأزواج عن بعضها.","report":"أبلغ عن عدد الأزواج المكتملة ومتوسط الفرق (البعدي ناقص القبلي) وفترة ثقته ٩٥٪."},"code":"stats::t.test(after, before, paired = TRUE)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/t.test.html"},"rank_sum":{"en":{"method":"Mann–Whitney U / Wilcoxon rank-sum test","rationale":"Compares ranks between two independent groups.","checks":"Use ordered scores with the same coding in both groups. Interpreting the result as a location shift needs comparably shaped distributions.","report":"Report group distributions, sample sizes, the rank-sum statistic and how the p-value was calculated."},"ar":{"method":"اختبار مان–ويتني للرتب","rationale":"يقارن رتب الدرجات بين مجموعتين مستقلتين.","checks":"استخدم درجات مرتبة بترميز موحد في المجموعتين. يتطلب تفسير النتيجة بوصفها إزاحة في الموقع تشابه شكلي التوزيعين.","report":"اعرض توزيعي المجموعتين وحجميهما وإحصاء الرتب وطريقة حساب القيمة الاحتمالية."},"code":"stats::wilcox.test(score ~ group, data = dat)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/wilcox.test.html"},"signed_rank":{"en":{"method":"Wilcoxon signed-rank test","rationale":"Uses the signs and ranks of absolute within-pair differences to assess their location.","checks":"Differences must have meaningful magnitudes and a plausibly symmetric distribution. Match observations by ID.","report":"Report complete pairs, direction, and the estimated location shift and interval when estimable."},"ar":{"method":"اختبار ويلكوكسون للرتب الموقعة","rationale":"يستخدم إشارات الفروق داخل الأزواج ورتب مقاديرها المطلقة لفحص موقع التوزيع.","checks":"ينبغي أن يكون لمقادير الفروق معنى وأن يكون توزيعها متماثلًا بصورة معقولة. طابق القياسات بالمعرّف.","report":"أبلغ عن عدد الأزواج المكتملة واتجاه الفرق وتقدير إزاحة الموقع وفترة الثقة عند إمكان تقديرها."},"code":"stats::wilcox.test(after, before, paired = TRUE, conf.int = TRUE)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/wilcox.test.html"},"sign_test":{"en":{"method":"Paired sign test","rationale":"Compares the chances of moving up and down among pairs that changed. Only the ordering is required.","checks":"Align complete pairs and use the same ordering at both occasions. Exclude ties from the binomial denominator and record them separately.","report":"Report increases, decreases and ties, and the proportion increasing among changed pairs."},"ar":{"method":"اختبار الإشارة للأزواج","rationale":"يقارن احتمال الارتفاع باحتمال الانخفاض بين الأزواج التي تغيرت، اعتمادًا على ترتيب الفئات.","checks":"طابق الأزواج المكتملة ووحّد ترتيب الفئات في القياسين. استبعد التعادلات من مقام الاختبار وسجّل عددها منفصلًا.","report":"اعرض أعداد الارتفاع والانخفاض والتعادل ونسبة الارتفاع بين الأزواج التي تغيرت."},"code":"up \u003c- sum(after > before, na.rm = TRUE)\ndown \u003c- sum(after \u003c before, na.rm = TRUE)\nif (up + down > 0) stats::binom.test(up, up + down, p = 0.5) else message(\"No changed pairs\")","reference":"https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/signtest.htm"},"mcnemar_exact":{"en":{"method":"Exact McNemar test for paired binary outcomes","rationale":"Conditions on discordant pairs to compare the two directions of change.","checks":"Use a 2 by 2 table with before as rows and after as columns, with the same two levels in the same order. Each independent pair contributes once.","report":"Report both discordant cell counts, the paired proportions and the exact p-value. The template's interval describes the direction of change among discordant pairs."},"ar":{"method":"اختبار ماكنيمار الدقيق لنتيجة ثنائية مرتبطة","rationale":"يقارن اتجاهي التغير بالاعتماد على الأزواج التي اختلفت نتيجتها بين القياسين.","checks":"اجعل الصفوف للقياس القبلي والأعمدة للبعدي في جدول ٢ × ٢، بنفس الفئتين والترتيب. يسهم كل زوج مستقل مرة واحدة.","report":"اعرض تكراري الخليتين خارج القطر والنسبتين المرتبطتين والقيمة الاحتمالية الدقيقة. تخص فترة الثقة في القالب اتجاه التغير بين الأزواج التي تغيرت."},"code":"first_to_second \u003c- tab[1, 2]\nchanged \u003c- first_to_second + tab[2, 1]\nif (changed > 0) stats::binom.test(first_to_second, changed, p = 0.5) else message(\"No discordant pairs\")","reference":"https://journal.r-project.org/articles/RJ-2010-008/"},"welch_anova":{"en":{"method":"Welch one-way ANOVA","rationale":"Tests equality of independent group means while allowing unequal variances.","checks":"Check independent units, within-group distributions, outliers and enough observations to estimate each variance.","report":"Report group means, Welch F, degrees of freedom and p-value. Identify any planned or multiplicity-adjusted contrasts."},"ar":{"method":"تحليل التباين الأحادي بطريقة ويلش","rationale":"يفحص تساوي متوسطات المجموعات المستقلة مع السماح باختلاف التباينات.","checks":"تحقق من استقلال الوحدات وتوزيع كل مجموعة والقيم المتطرفة وكفاية المشاهدات لتقدير تباين كل مجموعة.","report":"اعرض متوسطات المجموعات وإحصاء ف لويلش ودرجات الحرية والقيمة الاحتمالية والمقارنات المخططة أو المصححة للتعدد."},"code":"stats::oneway.test(score ~ group, data = dat, var.equal = FALSE)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/oneway.test.html"},"kruskal":{"en":{"method":"Kruskal–Wallis rank-sum test","rationale":"Compares the distributions of ordered scores across independent groups using pooled ranks.","checks":"Observations must be independent. A median-shift interpretation requires similarly shaped distributions.","report":"Summarize each distribution and report the omnibus statistic and degrees of freedom."},"ar":{"method":"اختبار كروسكال–واليس للرتب","rationale":"يقارن توزيعات الدرجات المرتبة بين مجموعات مستقلة باستخدام الرتب المجمعة.","checks":"تحقق من استقلال المشاهدات. يتطلب تفسير النتيجة بوصفها اختلافًا في الوسيط تشابه أشكال التوزيعات.","report":"لخّص توزيع كل مجموعة وأبلغ عن إحصاء الاختبار الكلي ودرجات الحرية."},"code":"stats::kruskal.test(score ~ group, data = dat)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/kruskal.test.html"},"rm_anova":{"en":{"method":"One-way repeated-measures ANOVA","rationale":"Tests mean differences across occasions while accounting for each person's repeated observations.","checks":"Use one complete observation per person and occasion. Code id and condition as factors. Assess residuals and sphericity for the uncorrected F test.","report":"Report occasion means, the within-person F test and any sphericity correction. Incomplete profiles may call for a mixed model."},"ar":{"method":"تحليل التباين الأحادي للقياسات المتكررة","rationale":"يفحص اختلاف المتوسطات بين المناسبات مع مراعاة تكرار القياس داخل الفرد.","checks":"استخدم قياسًا واحدًا مكتملًا لكل فرد ومناسبة، ورمّز المعرّف والمناسبة كعاملين. افحص البواقي وافتراض الكروية لاختبار ف غير المصحح.","report":"اعرض متوسطات المناسبات واختبار ف داخل الأفراد وأي تصحيح للكروية. قد تلائم النماذج المختلطة الملفات غير المكتملة."},"code":"summary(stats::aov(score ~ condition + Error(id/condition), data = dat))","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/aov.html"},"friedman":{"en":{"method":"Friedman test","rationale":"Compares occasions by ranking responses within each person or matched block.","checks":"Use a complete block design with one observation per person and occasion, independent blocks, and factor codes for id and condition.","report":"Report the number of complete blocks, occasion summaries, the Friedman statistic and degrees of freedom."},"ar":{"method":"اختبار فريدمان","rationale":"يقارن المناسبات بترتيب الاستجابات داخل كل فرد أو كتلة متطابقة.","checks":"استخدم تصميم كتل مكتملة بقياس واحد لكل فرد ومناسبة وكتل مستقلة، مع ترميز المعرّف والمناسبة كعاملين.","report":"أبلغ عن عدد الكتل المكتملة وملخص كل مناسبة وإحصاء فريدمان ودرجات الحرية."},"code":"stats::friedman.test(score ~ condition | id, data = dat)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/friedman.test.html"},"ancova":{"en":{"method":"Baseline-adjusted comparison (ANCOVA)","rationale":"Estimates the between-group difference at follow-up conditional on a common baseline score.","checks":"Use one row per independent participant and a group factor. Check the baseline–follow-up relationship, common slopes and residuals. Nonrandom assignment can leave confounding.","report":"Report the adjusted group contrast, reference group and 95% interval, and describe how missing outcomes were handled."},"ar":{"method":"المقارنة البعدية المضبوطة بالقياس القبلي (تحليل التغاير)","rationale":"تقدّر الفرق البعدي بين المجموعتين عند قيمة قبلية مشتركة.","checks":"استخدم صفًا لكل مشارك مستقل وعرّف المجموعة كعامل. افحص علاقة القبلي بالبعدي وتجانس ميول الانحدار والبواقي. قد تبقى عوامل مربكة عند غياب التخصيص العشوائي.","report":"اعرض فرق المجموعتين المعدّل والمجموعة المرجعية وفترة الثقة ٩٥٪ وطريقة التعامل مع القياسات المفقودة."},"code":"fit \u003c- stats::lm(post ~ pre + group, data = dat)\nsummary(fit)\nstats::confint(fit)","reference":"https://pmc.ncbi.nlm.nih.gov/articles/PMC1121605/"},"change_scores":{"en":{"method":"Welch comparison of individual change scores","rationale":"Estimates the difference between groups in mean after-minus-before change.","checks":"Use aligned pre/post measurements in one row per participant, independent groups and a quantitative scale. Check change-score distributions and missing pairs.","report":"Report mean change in each group and the between-group difference in change with its 95% interval."},"ar":{"method":"اختبار ويلش للمقارنة بين متوسطي التغير","rationale":"يقدّر الفرق بين المجموعتين في متوسط التغير من القياس القبلي إلى البعدي.","checks":"اجمع القياسين لكل مشارك في صف واحد، مع مجموعتين مستقلتين ومقياس كمي. افحص توزيعات التغير والأزواج الناقصة.","report":"اعرض متوسط التغير في كل مجموعة والفرق بين متوسطي التغير وفترة الثقة ٩٥٪."},"code":"stats::t.test(I(post - pre) ~ group, data = dat, var.equal = FALSE)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/t.test.html"},"factorial_interaction":{"en":{"method":"Two-way factorial ANOVA for an interaction","rationale":"Tests whether the mean contrast for one factor varies across levels of the other.","checks":"Use independent observations, two crossed factors with observations in each cell and residual variation. Check residual spread and shape.","report":"Report the interaction F test and cell means. Use estimated contrasts and intervals to describe the interaction."},"ar":{"method":"تحليل التباين الثنائي لاختبار التفاعل","rationale":"يختبر ما إذا كان فرق المتوسطات المرتبط بأحد العاملين يتغير عبر مستويات العامل الآخر.","checks":"استخدم مشاهدات مستقلة وعاملين متقاطعين وخلايا ممثلة وتباينًا متبقيًا. افحص تشتت البواقي وشكلها.","report":"اعرض اختبار ف للتفاعل ومتوسطات الخلايا. صِف التفاعل بمقارنات مقدّرة وفترات ثقة."},"code":"additive \u003c- stats::lm(score ~ factor_a + factor_b, data = dat)\nfull \u003c- stats::update(additive, . ~ . + factor_a:factor_b)\nstats::anova(additive, full)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/anova.lm.html"},"linear_simple":{"en":{"method":"Simple linear regression","rationale":"Models a continuous outcome using one predictor.","checks":"Check the proposed functional form, independent errors, influential points and the residual spread used for inference.","report":"Report the coefficient and interval. For prediction, assess error on observations held out from fitting."},"ar":{"method":"الانحدار الخطي البسيط","rationale":"ينمذج نتيجة مستمرة باستخدام متغير تنبؤي واحد.","checks":"افحص الشكل الدالي المقترح واستقلال الأخطاء والنقاط المؤثرة وتشتت البواقي المستخدم في الاستدلال.","report":"أبلغ عن المعامل وفترة الثقة. ولغرض التنبؤ قيّم الخطأ على مشاهدات محجوبة عن بناء النموذج."},"code":"stats::lm(y ~ x, data = dat)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/lm.html"},"linear_multiple":{"en":{"method":"Multiple linear regression","rationale":"Models a continuous outcome conditional on several predictors.","checks":"Check functional form, residuals, independence, influential observations and collinearity. Choose predictors with the sample size in mind.","report":"Report adjusted coefficients and intervals. For prediction, report out-of-sample error."},"ar":{"method":"الانحدار الخطي المتعدد","rationale":"ينمذج نتيجة مستمرة في ضوء عدة متغيرات تنبؤية معًا.","checks":"افحص الشكل الدالي والبواقي والاستقلال والمشاهدات المؤثرة وتعدد الارتباط الخطي. راعِ حجم العينة عند اختيار المتغيرات.","report":"أبلغ عن المعاملات المعدلة وفترات الثقة، وعند التنبؤ اعرض الخطأ خارج عينة بناء النموذج."},"code":"stats::lm(y ~ x1 + x2, data = dat)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/lm.html"},"binary_logit":{"en":{"method":"Binary logistic regression","rationale":"Models the log odds of a specified event and yields predicted event probabilities.","checks":"Code the event explicitly as 1 and its alternative as 0. Check independence, sparse outcomes, separation and the functional form of continuous predictors.","report":"Report the event definition, odds ratios and intervals. Assess calibration and discrimination on validation data."},"ar":{"method":"الانحدار اللوجستي الثنائي","rationale":"ينمذج لوغاريتم أرجحية حدث محدد ويتيح تقدير احتمال وقوعه.","checks":"رمّز الحدث بالواحد والبديل بالصفر. افحص الاستقلال وندرة الأحداث والانفصال والشكل الدالي للمتغيرات الكمية.","report":"حدّد الحدث واعرض نسب الأرجحية وفترات الثقة. قيّم المعايرة والقدرة التمييزية في بيانات التحقق."},"code":"stats::glm(y ~ x, data = dat, family = stats::binomial())","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/glm.html"},"multinomial":{"en":{"method":"Multinomial logistic regression","rationale":"Models membership probabilities for unordered outcome categories using a reference category.","checks":"Use a factor outcome and choose its reference level. Check category counts, independence and the model's independence-of-irrelevant-alternatives assumption. The template uses nnet.","report":"Name the reference category and report predicted probabilities and validation performance across categories."},"ar":{"method":"الانحدار اللوجستي متعدد الفئات الاسمية","rationale":"ينمذج احتمالات الانتماء لفئات غير مرتبة بالاستعانة بفئة مرجعية.","checks":"عرّف النتيجة كعامل وحدد فئته المرجعية. افحص أعداد الفئات واستقلال المشاهدات وافتراض استقلال البدائل غير ذات الصلة. يستخدم المثال حزمة nnet.","report":"سمِّ الفئة المرجعية واعرض الاحتمالات المتوقعة والأداء في بيانات التحقق عبر الفئات."},"code":"nnet::multinom(y ~ x, data = dat, trace = FALSE)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/nnet/html/multinom.html"},"ordinal_logit":{"en":{"method":"Proportional-odds ordinal logistic regression","rationale":"Uses the ordering of the response categories to model cumulative odds.","checks":"Set y to an ordered factor in the substantive order. Check category counts and whether proportional odds is tenable. The template uses MASS.","report":"Report the category order, common odds ratios with intervals and validation of predicted probabilities."},"ar":{"method":"الانحدار اللوجستي الترتيبي بافتراض تناسب الأرجحيات","rationale":"يستفيد من ترتيب فئات النتيجة لنمذجة الأرجحيات التراكمية.","checks":"عرّف المتغير التابع كعامل مرتب حسب معناه وافحص تكرارات الفئات وملاءمة افتراض تناسب الأرجحيات. يستخدم المثال حزمة MASS.","report":"اعرض ترتيب الفئات ونسب الأرجحية المشتركة وفترات الثقة وتقييم الاحتمالات المتوقعة في بيانات التحقق."},"code":"MASS::polr(y ~ x, data = dat, Hess = TRUE)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/MASS/html/polr.html"},"poisson":{"en":{"method":"Poisson regression for counts","rationale":"Models the expected number of events for each independent unit.","checks":"Use non-negative integer counts. Assess conditional dispersion and excess zeros. When exposure varies, include a log-exposure offset for a rate model.","report":"State the exposure unit, report count or rate ratios with intervals, and assess held-out predictions."},"ar":{"method":"انحدار بواسون للبيانات العددية الحدثية","rationale":"ينمذج العدد المتوقع لمرات وقوع الحدث لكل وحدة مستقلة.","checks":"استخدم أعدادًا صحيحة غير سالبة. افحص التشتت الشرطي وكثرة الأصفار، وأضف لوغاريتم التعرض كحد إزاحة عند اختلاف مدد التعرض لنمذجة المعدل.","report":"حدد وحدة التعرض واعرض نسب الأعداد أو المعدلات وفترات الثقة، وقيّم التنبؤ على بيانات محجوبة."},"code":"stats::glm(y ~ x, data = dat, family = stats::poisson())","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/family.html"},"normality":{"en":{"method":"Normal Q–Q plot and Shapiro–Wilk test","rationale":"A Q–Q plot shows where a distribution departs from normality. Shapiro–Wilk offers a formal test for an independent sample.","checks":"Use independent values, such as aligned differences from independent pairs. In R the test needs 3–5,000 nonmissing values and nonzero variation.","report":"Describe any tail departures or outliers, the sample size, and W and p if a formal test is appropriate."},"ar":{"method":"مخطط كمي–كمي طبيعي واختبار شابيرو–ويلك","rationale":"يُظهر المخطط مواضع الابتعاد عن الاعتدالية، ويتيح شابيرو–ويلك اختبارًا استدلاليًا لعينة مستقلة.","checks":"استخدم قيمًا مستقلة مثل الفروق داخل أزواج مستقلة. يشترط الاختبار في R من ٣ إلى ٥٠٠٠ قيمة صالحة ذات تباين موجب.","report":"صِف الانحرافات في الأطراف والقيم المتطرفة وحجم العينة، وأبلغ عن W والقيمة الاحتمالية عند ملاءمة الاختبار."},"code":"v \u003c- x[is.finite(x)]\nif (length(v) >= 2L) {\n  stats::qqnorm(v)\n  stats::qqline(v)\n}\nif (length(v) >= 3L && length(v) \u003c= 5000L && diff(range(v)) > 0) stats::shapiro.test(v)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/shapiro.test.html"},"residual_qq":{"en":{"method":"Normal Q–Q plot of standardized model residuals","rationale":"Shows departures of the fitted linear model's standardized residuals from a normal reference.","checks":"Supply a fitted linear model. Examine residuals versus fitted values alongside the Q–Q plot for changing spread or curvature.","report":"Describe systematic tail departures and influential cases in the context of the fitted model."},"ar":{"method":"مخطط كمي–كمي طبيعي لبواقي النموذج المعيارية","rationale":"يوضح مواضع ابتعاد البواقي المعيارية للنموذج الخطي عن المرجع الطبيعي.","checks":"استخدم نموذجًا خطيًا مقدّرًا. افحص أيضًا البواقي مقابل القيم المقدّرة للتحقق من تغير التشتت أو وجود انحناء.","report":"صِف الانحرافات المنتظمة في الأطراف والحالات المؤثرة في سياق النموذج."},"code":"graphics::plot(fit, which = 2)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/plot.lm.html"},"bartlett":{"en":{"method":"Bartlett test of equal variances","rationale":"Tests whether independent, normally distributed groups share a variance.","checks":"Check within-group normality and independence. The test is sensitive to departures from normality.","report":"Report each group's spread along with the statistic, degrees of freedom and p-value."},"ar":{"method":"اختبار بارتليت لتساوي التباينات","rationale":"يفحص تساوي التباينات في مجموعات مستقلة تتبع توزيعات طبيعية.","checks":"افحص الاعتدالية داخل كل مجموعة واستقلال المشاهدات. يتأثر الاختبار بالابتعاد عن الاعتدالية.","report":"اعرض تشتت كل مجموعة وقيمة الإحصاء ودرجات الحرية والقيمة الاحتمالية."},"code":"stats::bartlett.test(score ~ group, data = dat)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/bartlett.test.html"},"fligner":{"en":{"method":"Fligner–Killeen test of equal variances","rationale":"Uses ranks of absolute deviations from group medians and is robust to many departures from normality.","checks":"Use independent groups and inspect their distributions and outliers.","report":"Report group spreads together with the test statistic, degrees of freedom and p-value."},"ar":{"method":"اختبار فلينر–كيلين لتساوي التباينات","rationale":"يعتمد على رتب الانحرافات المطلقة عن وسائط المجموعات ويتسم بالمتانة أمام صور عديدة من الابتعاد عن الاعتدالية.","checks":"استخدم مجموعات مستقلة وافحص توزيعاتها والقيم المتطرفة.","report":"اعرض تشتت كل مجموعة مع قيمة إحصاء الاختبار ودرجات الحرية والقيمة الاحتمالية."},"code":"stats::fligner.test(score ~ group, data = dat)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/fligner.test.html"},"chisq_gof":{"en":{"method":"Chi-squared goodness-of-fit test","rationale":"Compares category counts with the expected counts implied by prespecified probabilities.","checks":"Use independent observations, mutually exclusive categories and positive null probabilities in the same order as the counts, summing to one. Inspect sum(counts) * p.","report":"Report the stated probabilities, observed and expected counts, statistic and degrees of freedom."},"ar":{"method":"اختبار كاي تربيع لجودة المطابقة","rationale":"يقارن تكرارات الفئات بالتكرارات المتوقعة وفق احتمالات محددة مسبقًا.","checks":"استخدم مشاهدات مستقلة وفئات متنافية واحتمالات موجبة مرتبة كالتكرارات ومجموعها واحد. افحص حاصل ضرب الإجمالي في احتمال كل فئة.","report":"اعرض الاحتمالات المفترضة والتكرارات المشاهدة والمتوقعة وقيمة الإحصاء ودرجات الحرية."},"code":"stats::chisq.test(counts, p = p)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/chisq.test.html"},"simulated_gof":{"en":{"method":"Monte Carlo chi-squared goodness-of-fit test","rationale":"Simulates category counts under the stated probabilities to calibrate the goodness-of-fit statistic.","checks":"Use independent cases and fixed, positive null probabilities in the category order. Choose enough simulations for the needed p-value precision.","report":"Report counts, null probabilities, the simulation count, seed and Monte Carlo p-value."},"ar":{"method":"اختبار جودة المطابقة بمحاكاة مونت كارلو","rationale":"يحاكي تكرارات الفئات وفق الاحتمالات المفترضة لمعايرة إحصاء جودة المطابقة.","checks":"استخدم حالات مستقلة واحتمالات موجبة محددة مسبقًا بترتيب الفئات. اختر عدد محاكاة يتناسب مع دقة القيمة الاحتمالية المطلوبة.","report":"اعرض التكرارات والاحتمالات المفترضة وعدد المحاكاة والبذرة العشوائية والقيمة الاحتمالية بالمحاكاة."},"code":"set.seed(1)\nstats::chisq.test(counts, p = p, simulate.p.value = TRUE, B = 9999)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/chisq.test.html"},"ks_fixed":{"en":{"method":"One-sample Kolmogorov–Smirnov test","rationale":"Compares an empirical distribution to a fully specified continuous reference distribution.","checks":"Use independent observations and account for ties from rounding. Replace the example normal CDF and its parameters with your prespecified reference.","report":"State the reference distribution and its parameter values, sample size, D and p-value."},"ar":{"method":"اختبار كولموغوروف–سميرنوف لعينة واحدة","rationale":"يقارن التوزيع التجريبي بتوزيع مرجعي مستمر محدد المعلمات مسبقًا.","checks":"استخدم مشاهدات مستقلة وانتبه لأثر تعادل القيم الناتج عن التقريب. استبدل دالة التوزيع الطبيعي ومعلماتها في المثال بما يوافق مرجعك المحدد مسبقًا.","report":"حدّد التوزيع المرجعي وقيم معلماته وحجم العينة وإحصاء D والقيمة الاحتمالية."},"code":"stats::ks.test(x, \"pnorm\", mean = mu0, sd = sigma0)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/ks.test.html"},"fitted_qq":{"en":{"method":"Q–Q plot against the fitted distribution","rationale":"Estimating parameters on the same observations changes the null distribution of the usual one-sample KS statistic.","checks":"Set q_fitted to the quantile function with the fitted parameters. A formal bootstrap test requires simulating from the fitted family and refitting in each replicate.","report":"Describe departures from the reference line and state how the parameters were estimated."},"ar":{"method":"مخطط كمي–كمي مقابل التوزيع المقدّر","rationale":"يغيّر تقدير المعلمات من المشاهدات نفسها التوزيع الصفري المعتاد لإحصاء كولموغوروف–سميرنوف لعينة واحدة.","checks":"عرّف q_fitted كدالة الكميات بالمعلمات المقدّرة. إذا استخدمت اختبار بوتستراب معلميًا فحاكِ التوزيع الملائم وأعد تقدير المعلمات في كل تكرار.","report":"صِف الابتعاد عن الخط المرجعي وحدد طريقة تقدير المعلمات."},"code":"v \u003c- x[is.finite(x)]\nstats::qqplot(q_fitted(stats::ppoints(length(v))), v)\ngraphics::abline(0, 1)","reference":"https://stat.ethz.ch/R-manual/R-patched/library/stats/html/ks.test.html"}},"example":{"n":12,"means":{"control":{"pre":10.5,"post":13},"program":{"pre":12.5,"post":17}},"adjusted":3.25714286,"adjusted_ci":[1.72931546,4.78497025],"gain":2,"gain_ci":[0.0410246,3.9589754]}}
+  </script>
+  <script>
+const exampleBase = ["comparison", "pre_post"];
+
+function routeHash(language, answers, example = false) {
+  const path = example ? ["case", ...answers.slice(exampleBase.length)] : answers;
+  return "#" + [language, ...path].join("/");
+}
+
+function resolveRoute(catalog, hash) {
+  const segments = hash.replace(/^#/, "").split("/");
+  const language = segments[0] === "en" ? "en" : "ar";
+  const example = segments[1] === "case";
+  const supplied = example ? [...exampleBase, ...segments.slice(2)] : segments.slice(1);
+  let node = "goal";
+  const answers = [];
+  const trail = [];
+  for (const answer of supplied) {
+    const question = catalog.questions[node];
+    if (!question || !Object.prototype.hasOwnProperty.call(question.choices, answer)) break;
+    const choice = question.choices[answer];
+    trail.push({ key: question.key, question: question.label, choice: choice.label, answer });
+    answers.push(answer);
+    node = choice.to;
+  }
+  return { language, example, answers, trail, node };
+}
+const catalog = JSON.parse(document.getElementById("catalog").textContent);
+const publicGuide = "https://nistat-students.lilacsunbird8.chatgpt.site/";
+const wording = {
+  ar: {
+    title: "دليل اختيار التحليل الإحصائي", subtitle: "ابدأ بسؤالك البحثي، ثم حدّد تصميم دراستك للوصول إلى الأسلوب المناسب وما تحتاج إلى فحصه وتقريره.",
+    student: "دليل الطالب", home: "نيستات | البداية", share: "نسخ الرابط", skip: "انتقل إلى الدليل", footer: "روابط الدليل",
+    download: "تنزيل نسخة دون اتصال", repository: "المشروع على GitHub", step: "السؤال", recommendation: "الأسلوب المقترح",
+    back: "الرجوع", reset: "بدء دراسة جديدة", choices: "اختياراتك", edit: "تعديل الإجابة", check: "قبل استخدام الأسلوب",
+    report: "ما الذي تذكره في التقرير؟", code: "عرض قالب R", copyCode: "نسخ كود R", source: "المرجع العلمي",
+    print: "طباعة التوصية", openExample: "جرّب هذا المثال", exampleLabel: "مثال تطبيقي", exampleTitle: "هل تحسّنت درجات الطلاب؟",
+    exampleText: "بيانات توضيحية لاثني عشر طالبًا في مجموعتين. أُجري اختبار قبل البرنامج التعليمي وبعده.",
+    chartTitle: "متوسط درجة الاختبار", program: "مجموعة البرنامج", control: "المجموعة الضابطة", pre: "قبلي", post: "بعدي",
+    caseResult: "النتيجة في المثال", interval: "فترة الثقة ٩٥٪", point: "نقطة", programVsControl: "لصالح مجموعة البرنامج",
+    adjustedEstimate: "بعد ضبط الدرجة القبلية، بلغ فرق المتوسط البعدي", changeEstimate: "بلغ الفرق بين متوسطي التحسّن",
+    copied: "نُسخ الرابط", copiedCode: "نُسخ كود R", manualLink: "انسخ هذا الرابط", manualCode: "انسخ كود R", close: "إغلاق",
+    optionTitles: { association: "العلاقات والارتباط", comparison: "الفروق والمقارنات", prediction: "النمذجة والتنبؤ", distribution: "التوزيع والافتراضات" },
+    examples: { association: "هل يرتبط وقت المذاكرة بدرجة الاختبار؟", comparison: "هل تختلف النتائج بين مجموعتين؟",
+      prediction: "هل يمكن التنبؤ بالتحصيل من الحضور؟", distribution: "هل توزيع الدرجات قريب من الطبيعي؟" }
+  },
+  en: {
+    title: "Find the right analysis for your study", subtitle: "Start with your research question, then describe your study design to find a method, its assumptions and what to report.",
+    student: "Student guide", home: "Nistat home", share: "Copy link", skip: "Skip to guide", footer: "Guide links",
+    download: "Download for offline use", repository: "Project on GitHub", step: "Question", recommendation: "Recommended approach",
+    back: "Back", reset: "Start a new study", choices: "Your choices", edit: "Edit answer", check: "Before you use it",
+    report: "What to report", code: "View R template", copyCode: "Copy R code", source: "Method reference",
+    print: "Print recommendation", openExample: "Explore this example", exampleLabel: "Worked example", exampleTitle: "Did the students’ scores improve?",
+    exampleText: "Illustrative scores for twelve students in two groups, tested before and after a learning program.",
+    chartTitle: "Mean test score", program: "Program", control: "Control", pre: "Before", post: "After",
+    caseResult: "Result in this example", interval: "95% CI", point: "points", programVsControl: "in favor of the program group",
+    adjustedEstimate: "After adjustment for baseline, the difference in follow-up means was", changeEstimate: "The difference in mean improvement was",
+    copied: "Link copied", copiedCode: "R code copied", manualLink: "Copy this link", manualCode: "Copy this R code", close: "Close",
+    optionTitles: { association: "Association", comparison: "Group differences", prediction: "Prediction", distribution: "Distributions & assumptions" },
+    examples: { association: "Does study time relate to exam scores?", comparison: "Do scores differ between two groups?",
+      prediction: "Does attendance predict achievement?", distribution: "Are the scores approximately normal?" }
+  }
+};
+
+const byId = id => document.getElementById(id);
+function element(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+function link(text, url, className) {
+  const anchor = element("a", className, text);
+  anchor.href = url;
+  return anchor;
+}
+function button(text, className, action) {
+  const control = element("button", className, text);
+  control.type = "button";
+  control.addEventListener("click", action);
+  return control;
+}
+function arrow() {
+  const item = element("span", "arrow flow-arrow", "→");
+  item.setAttribute("aria-hidden", "true");
+  return item;
+}
+function number(value, lang, digits = 0) {
+  return new Intl.NumberFormat(lang === "ar" ? "ar-EG" : "en", {
+    minimumFractionDigits: digits, maximumFractionDigits: digits, useGrouping: false
+  }).format(value);
+}
+function canvasFor(width, height, className) {
+  const canvas = element("canvas", className);
+  canvas.width = width * 2;
+  canvas.height = height * 2;
+  const ctx = canvas.getContext("2d");
+  if (ctx) ctx.scale(2, 2);
+  return { canvas, ctx };
+}
+function miniPlot(kind) {
+  const { canvas, ctx } = canvasFor(44, 34, "tile-plot");
+  canvas.setAttribute("aria-hidden", "true");
+  if (!ctx) return canvas;
+  const palette = { association: ["#e0eee7","#26725c"], comparison: ["#f4e8d3","#93651f"],
+    prediction: ["#e0ebf3","#3a6c8b"], distribution: ["#ece5f1","#775a8c"] };
+  const [background, ink] = palette[kind];
+  ctx.fillStyle = background; ctx.fillRect(0, 0, 44, 34);
+  ctx.fillStyle = ink; ctx.strokeStyle = ink; ctx.lineWidth = 1.7; ctx.lineCap = "round";
+  if (kind === "comparison") {
+    [9,16,12,21].forEach((h,i) => ctx.fillRect(8 + i * 8, 27 - h, 5, h));
+  } else if (kind === "distribution") {
+    ctx.beginPath();
+    for (let x = 5; x <= 39; x++) {
+      const y = 26 - 18 * Math.exp(-Math.pow((x - 22) / 8, 2) / 2);
+      if (x === 5) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  } else {
+    const dots = kind === "association" ? [[8,25],[12,17],[17,23],[22,16],[27,12],[32,15],[36,8]]
+      : [[9,24],[15,19],[20,21],[27,12],[34,9]];
+    for (const [x,y] of dots) { ctx.beginPath(); ctx.arc(x,y,2,0,2*Math.PI); ctx.fill(); }
+    if (kind === "prediction") { ctx.beginPath(); ctx.moveTo(7,27); ctx.lineTo(37,7); ctx.stroke(); }
+  }
+  return canvas;
+}
+
+function exampleChart(state) {
+  const lang = state.language;
+  const w = wording[lang];
+  const fig = element("figure");
+  fig.append(element("figcaption", "", w.chartTitle));
+  const { canvas, ctx } = canvasFor(304, 128, "case-chart");
+  const means = catalog.example.means;
+  const legend = element("div", "legend");
+  const description = [];
+  for (const series of ["program", "control"]) {
+    const item = element("span", series);
+    item.append(element("i"), document.createTextNode(w[series]));
+    legend.append(item);
+    description.push(w[series] + " · " + w.pre + " " + number(means[series].pre,lang,1)
+      + " · " + w.post + " " + number(means[series].post,lang,1));
+  }
+  canvas.setAttribute("role","img");
+  canvas.setAttribute("aria-label", w.chartTitle + ". " + description.join(". "));
+  fig.append(canvas, legend);
+  if (!ctx) { fig.append(element("p","",description.join(" · "))); return fig; }
+  const x0 = 56, x1 = 232;
+  const yAt = score => 103 - (score - 9) * 10;
+  ctx.font = '11px Tahoma, Arial, sans-serif'; ctx.lineWidth = 1;
+  for (const score of [10, 12, 14, 16, 18]) {
+    const y = yAt(score);
+    ctx.strokeStyle = "#ffffff2c"; ctx.beginPath(); ctx.moveTo(32,y); ctx.lineTo(273,y); ctx.stroke();
+    ctx.fillStyle = "#ccded5"; ctx.textAlign = "center"; ctx.fillText(number(score,lang),15,y+4);
+  }
+  for (const series of ["program","control"]) {
+    const data = means[series], color = series === "program" ? "#9de0c7" : "#f6ce8d";
+    ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 2.4;
+    ctx.setLineDash(series === "control" ? [5,4] : []);
+    ctx.beginPath(); ctx.moveTo(x0,yAt(data.pre)); ctx.lineTo(x1,yAt(data.post)); ctx.stroke(); ctx.setLineDash([]);
+    for (const [x,y] of [[x0,yAt(data.pre)],[x1,yAt(data.post)]]) {
+      ctx.beginPath(); ctx.arc(x,y,3.8,0,2*Math.PI); ctx.fill();
+    }
+    ctx.font = "bold 12px Tahoma, Arial, sans-serif"; ctx.textAlign = "start"; ctx.direction = "ltr";
+    ctx.fillText(number(data.post,lang), x1+9, yAt(data.post)+4);
+    ctx.fillText(number(data.pre,lang,1), x0+5, yAt(data.pre)-7);
+  }
+  ctx.textAlign = "center"; ctx.font = "12px Tahoma, Arial, sans-serif"; ctx.fillStyle = "#e4eee6";
+  ctx.fillText(w.pre,x0,121); ctx.fillText(w.post,x1,121);
+  return fig;
+}
+
+function casePanel(state) {
+  const w = wording[state.language];
+  const card = element("section","case");
+  card.append(element("span","case-label",w.exampleLabel), element("h2","",w.exampleTitle),
+    element("p","",w.exampleText), exampleChart(state));
+  if (!state.example) {
+    const start = link(w.openExample, routeHash(state.language, exampleBase, true), "case-action");
+    start.append(arrow()); card.append(start);
+  }
+  return card;
+}
+function trailPanel(state) {
+  const lang = state.language, w = wording[lang];
+  const trail = element("section", "panel trail");
+  trail.append(element("h2","",w.choices));
+  const list = element("ol");
+  state.trail.forEach((entry, index) => {
+    const row = element("li");
+    // The two built-in choices describe the teaching case itself.
+    if (state.example && index < exampleBase.length) {
+      row.append(element("span","trail-item",entry.choice[lang]));
+    } else {
+      const edit = link(entry.choice[lang],routeHash(lang,state.answers.slice(0,index),state.example));
+      edit.setAttribute("aria-label", w.edit + " · " + entry.choice[lang]);
+      row.append(edit);
+    }
+    list.append(row);
+  });
+  trail.append(list);
+  return trail;
+}
+function topLine(state, text) {
+  const w = wording[state.language], line = element("div", "panel-line");
+  line.append(element("span","step-tag",text));
+  if (state.answers.length) {
+    const back = state.example && state.answers.length === exampleBase.length
+      ? routeHash(state.language, []) : routeHash(state.language, state.answers.slice(0,-1), state.example);
+    line.append(link(w.back, back, "quiet"));
+  }
+  return line;
+}
+function titleHeading(text) {
+  const title = element("h2","",text);
+  title.id = "question-title"; title.tabIndex = -1;
+  return title;
+}
+function renderQuestion(state, question) {
+  const lang = state.language, w = wording[lang], root = state.node === "goal";
+  const items = element("div",root ? "choice-grid" : "option-list");
+  for (const [key, choice] of Object.entries(question.choices)) {
+    const item = link("",routeHash(lang,[...state.answers,key],state.example), root ? "tile" : "option");
+    if (root) {
+      item.append(miniPlot(key), arrow(), element("span","tile-name",w.optionTitles[key]),
+        element("span","tile-caption",w.examples[key]));
+    } else { item.append(element("span","",choice.label[lang]), arrow()); }
+    items.append(item);
+  }
+  byId("guide-panel").replaceChildren(topLine(state, w.step + " " + number(state.trail.length+1,lang)),
+    titleHeading(question.label[lang]), items);
+}
+
+function exampleAnswer(id, lang) {
+  const data = catalog.example, w = wording[lang], adjusted = id === "ancova";
+  const estimate = adjusted ? data.adjusted : data.gain;
+  const ci = adjusted ? data.adjusted_ci : data.gain_ci;
+  const box = element("div","example-answer");
+  const summary = element("p");
+  const bounds = element("bdi","",number(ci[0],lang,2) + " – " + number(ci[1],lang,2));
+  bounds.dir = "ltr";
+  summary.append(document.createTextNode((adjusted ? w.adjustedEstimate : w.changeEstimate)+" "),
+    element("strong","",number(estimate,lang,2)+" "+w.point), document.createTextNode(" "+w.programVsControl+" ("+w.interval+" "),
+    bounds, document.createTextNode(")."));
+  box.append(element("h3","",w.caseResult),summary);
+  return box;
+}
+function renderMethod(state, method) {
+  const lang = state.language, w = wording[lang], content = method[lang], panel = byId("guide-panel");
+  panel.replaceChildren(topLine(state,w.recommendation),titleHeading(content.method),element("p","result-why",content.rationale));
+  if (state.example) panel.append(exampleAnswer(state.node,lang));
+  for (const [heading,field] of [[w.check,"checks"],[w.report,"report"]]) {
+    const block = element("section","result-block");
+    block.append(element("h3","",heading),element("p","",content[field])); panel.append(block);
+  }
+  const details = element("details","code-box");
+  const body = element("div","code-body");
+  const pre = element("pre"); pre.append(element("code","",method.code));
+  body.append(pre,button(w.copyCode,"text-button",() => copyText(method.code,w.copiedCode,w.manualCode)));
+  details.append(element("summary","",w.code),body); panel.append(details);
+  const actions = element("div","result-links");
+  const reference = link(w.source+" ↗",method.reference,"reference-link");
+  reference.target = "_blank"; reference.rel = "noopener noreferrer";
+  actions.append(reference,button(w.print,"text-button",() => window.print()),link(w.reset,routeHash(lang,[]),"quiet"));
+  panel.append(actions,element("p","print-reference",w.source+" · "+method.reference));
+}
+
+let noticeTimer;
+function notify(message) {
+  clearTimeout(noticeTimer); byId("notice").textContent = message;
+  noticeTimer = setTimeout(() => { byId("notice").textContent = ""; }, 2600);
+}
+async function copyText(value, success, fallback) {
+  try {
+    await navigator.clipboard.writeText(value);
+    notify(success);
+  } catch {
+    byId("copy-title").textContent = fallback;
+    byId("manual-copy").value = value;
+    byId("copy-dialog").showModal();
+    byId("manual-copy").focus(); byId("manual-copy").select();
+  }
+}
+function render(focus = false) {
+  const state = resolveRoute(catalog,window.location.hash);
+  const lang = state.language, w = wording[lang], other = lang === "ar" ? "en" : "ar";
+  const canonical = routeHash(lang,state.answers,state.example);
+  if (location.hash && location.hash !== canonical) history.replaceState(null,"",canonical);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  const labels = { "page-heading":w.title, "intro-text":w.subtitle, "product-label":w.student,
+    "skip":w.skip, "share":w.share, "download":w.download, "repository":w.repository,
+    "footer-name":"Nistat · "+w.student, "close-dialog":w.close };
+  for (const [id,label] of Object.entries(labels)) byId(id).textContent = label;
+  byId("footer-nav").setAttribute("aria-label",w.footer);
+  byId("home").setAttribute("aria-label",w.home); byId("home").href = routeHash(lang,[]);
+  const switcher = byId("language");
+  switcher.href = routeHash(other,state.answers,state.example); switcher.lang = other;
+  switcher.textContent = other === "en" ? "English" : "العربية";
+  const downloadURL = new URL(location.href); downloadURL.hash = "";
+  byId("download").href = downloadURL.href;
+  byId("intro").classList.toggle("compact",state.answers.length > 0);
+  const question = catalog.questions[state.node];
+  if (question) renderQuestion(state,question); else renderMethod(state,catalog.methods[state.node]);
+  const side = byId("side-panel"); side.replaceChildren();
+  if (!state.answers.length || state.example) side.append(casePanel(state));
+  if (state.trail.length) side.append(trailPanel(state));
+  const title = byId("question-title");
+  document.title = (question ? w.title : catalog.methods[state.node][lang].method) + " | Nistat";
+  if (focus) {
+    title.focus({preventScroll:true});
+    const position = byId("guide-panel").getBoundingClientRect().top;
+    if (position < 0 || position > innerHeight*.65) byId("guide-panel").scrollIntoView({block:"start"});
+  }
+}
+
+byId("share").addEventListener("click",() => {
+  const state = resolveRoute(catalog,location.hash), w = wording[state.language];
+  const url = new URL(location.protocol === "file:" ? publicGuide : location.href);
+  url.search = ""; url.hash = routeHash(state.language,state.answers,state.example);
+  copyText(url.href,w.copied,w.manualLink);
+});
+byId("close-dialog").addEventListener("click",() => byId("copy-dialog").close());
+byId("skip").addEventListener("click",event => {
+  event.preventDefault(); byId("main-content").focus(); byId("main-content").scrollIntoView();
+});
+let printDetails;
+window.addEventListener("beforeprint",() => {
+  const details = document.querySelector(".code-box");
+  if (details) { printDetails = details.open; details.open = true; }
+});
+window.addEventListener("afterprint",() => {
+  const details = document.querySelector(".code-box");
+  if (details && printDetails !== undefined) details.open = printDetails;
+  printDetails = undefined;
+});
+window.addEventListener("hashchange",() => render(true));
+render();
+  </script>
+</body>
+</html>
